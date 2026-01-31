@@ -24,6 +24,7 @@ void InsertarInicio(ListaDoble &lista, int id, string nombre, float peso);
 void InsertarFinal(ListaDoble &lista, int id, string nombre, float peso);
 void MostrarAdelante(const ListaDoble &lista);
 void MostrarAtras(const ListaDoble &lista);
+Paquete* BuscarID(ListaDoble &lista, int id);
 
 int main()
 {
@@ -83,6 +84,21 @@ int main()
             break;
 
         case 5:
+            cout << "------------------------------------\n";
+            cout << "Ingrese ID a buscar: ";
+            cin >> id;
+            {
+                Paquete* encontrado = BuscarID(milista, id);
+                if (encontrado) {
+                    cout << "Paquete encontrado:\n";
+                    cout << "ID: " << encontrado->id << "\n";
+                    cout << "Peso: " << encontrado->peso << "\n";                   
+                }
+                else{
+                    cout << "No se encontro un paquete con ID: " << id << "\n";
+                }
+            }
+            cout << "------------------------------------\n";
             break;
 
         case 6:
@@ -183,4 +199,18 @@ void MostrarAtras(const ListaDoble &lista)
          cout << "------------------------------------\n";
         actual = actual->anterior;
     }
+}
+
+//Funcion para encontrar el id
+Paquete* BuscarID(ListaDoble &lista, int id)
+{
+    Paquete *actual = lista.cabeza;
+    while (actual != nullptr)
+    {
+        if (actual->id == id)
+        return actual;
+        actual = actual->siguiente;
+    }
+    return nullptr;
+    
 }
