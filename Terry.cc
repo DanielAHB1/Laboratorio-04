@@ -24,8 +24,10 @@ void InsertarInicio(ListaDoble &lista, int id, string nombre, float peso);
 void InsertarFinal(ListaDoble &lista, int id, string nombre, float peso);
 void MostrarAdelante(const ListaDoble &lista);
 void MostrarAtras(const ListaDoble &lista);
-Paquete* BuscarID(ListaDoble &lista, int id);
+Paquete *BuscarID(ListaDoble &lista, int id);
 void eliminarID(ListaDoble &lista, int id);
+void editarID(ListaDoble &lista, int id, string nuevoNombre, float nuevoPeso);
+void LiberarMemoria(ListaDoble &lista);
 
 int main()
 {
@@ -37,7 +39,7 @@ int main()
     float peso;
     do
     {
-        cout << "Menu de Paquetes\n";
+        cout << "Gestion de Paquetes Terry\n";
         cout << "1. Insertar paquete al inicio\n";
         cout << "2. Insertar paquete al final\n";
         cout << "3. Mostrar paquetes desde el inicio\n";
@@ -53,36 +55,51 @@ int main()
         switch (opcion)
         {
         case 1:
-         cout << "------------------------------------\n";
+            cout << "------------------------------------\n";
             cout << "Ingrese ID del paquete: ";
             cin >> id;
-            cin.ignore();
-            cout << "Ingrese nombre del paquete: ";
-            getline(cin, nombre);
-            cout << "Ingrese peso del paquete: ";
-            cin >> peso;
-            InsertarInicio(milista, id, nombre, peso);
-            cout << "Paquete insertado al inicio.\n";
+            if (BuscarID(milista, id) != nullptr)
+            {
+                cout << "Error: El ID " << id << " ya existe. Terry no acepta duplicados.\n";
+            }
+            else
+            {
+                cin.ignore();
+                cout << "Ingrese nombre del paquete: ";
+                getline(cin, nombre);
+                cout << "Ingrese peso del paquete: ";
+                cin >> peso;
+                InsertarInicio(milista, id, nombre, peso);
+                cout << "Paquete insertado al inicio.\n";
+            }
             cout << "------------------------------------\n";
             break;
         case 2:
-         cout << "------------------------------------\n";
+            cout << "------------------------------------\n";
             cout << "Ingrese ID del paquete: ";
             cin >> id;
-            cin.ignore();
-            cout << "Ingrese nombre del paquete: ";
-            getline(cin, nombre);
-            cout << "Ingrese peso del paquete: ";
-            cin >> peso;
-            InsertarFinal(milista, id, nombre, peso);
-            cout << "Paquete insertado al final.\n";
+
+            if (BuscarID(milista, id) != nullptr)
+            {
+                cout << "Error: El ID " << id << " ya existe. No se puede insertar.\n";
+            }
+            else
+            {
+                cin.ignore();
+                cout << "Ingrese nombre del paquete: ";
+                getline(cin, nombre);
+                cout << "Ingrese peso del paquete: ";
+                cin >> peso;
+                InsertarFinal(milista, id, nombre, peso);
+                cout << "Paquete insertado al final.\n";
+            }
             cout << "------------------------------------\n";
             break;
         case 3:
             MostrarAdelante(milista);
             break;
         case 4:
-             MostrarAtras(milista);
+            MostrarAtras(milista);
             break;
 
         case 5:
@@ -90,13 +107,15 @@ int main()
             cout << "Ingrese ID a buscar: ";
             cin >> id;
             {
-                Paquete* encontrado = BuscarID(milista, id);
-                if (encontrado) {
+                Paquete *encontrado = BuscarID(milista, id);
+                if (encontrado)
+                {
                     cout << "Paquete encontrado:\n";
                     cout << "ID: " << encontrado->id << "\n";
-                    cout << "Peso: " << encontrado->peso << "\n";                   
+                    cout << "Peso: " << encontrado->peso << "\n";
                 }
-                else{
+                else
+                {
                     cout << "No se encontro un paquete con ID: " << id << "\n";
                 }
             }
@@ -112,16 +131,30 @@ int main()
             cout << "------------------------------------\n";
             break;
         case 7:
-
+            cout << "------------------------------------\n";
+            cout << "EDITAR PAQUETE POR ID\n";
+            cout << "Ingrese ID a editar: ";
+            cin >> id;
+            {
+                string nuevoNombre;
+                float nuevoPeso;
+                cout << "Ingrese nuevo nombre: ";
+                cin.ignore();
+                getline(cin, nuevoNombre);
+                cout << "Ingrese nuevo peso: ";
+                cin >> nuevoPeso;
+                editarID(milista, id, nuevoNombre, nuevoPeso);
+            }
             break;
         case 8:
             cout << "------------------------------------\n";
-            cout << "CANTIDAD DE PAQUETES"<< endl;
+            cout << "CANTIDAD DE PAQUETES" << endl;
             if (milista.contador == 0)
             {
-                cout << "La lista esta vacia"<< endl;
+                cout << "La lista esta vacia" << endl;
             }
-            else {
+            else
+            {
                 cout << "Total de paquetes: " << milista.contador << endl;
             }
             cout << "------------------------------------\n";
@@ -193,16 +226,15 @@ void MostrarAdelante(const ListaDoble &lista)
         cout << "La lista esta vacia.\n";
         return;
     }
-     cout << "------------------------------------\n";
+    cout << "------------------------------------\n";
     cout << "Paquetes en la lista (desde el inicio):\n";
     while (actual != nullptr)
     {
         cout << "ID: " << actual->id << ", Nombre: " << actual->nombre << ", Peso: " << actual->peso << endl;
-         cout << "------------------------------------\n";
+        cout << "------------------------------------\n";
         actual = actual->siguiente;
     }
 }
-
 
 // Funcion para mostrar los paquetes desde el final
 void MostrarAtras(const ListaDoble &lista)
@@ -213,50 +245,50 @@ void MostrarAtras(const ListaDoble &lista)
         cout << "La lista esta vacia.\n";
         return;
     }
-     cout << "------------------------------------\n";
+    cout << "------------------------------------\n";
     cout << "Paquetes en la lista (desde el final):\n";
     while (actual != nullptr)
     {
         cout << "ID: " << actual->id << ", Nombre: " << actual->nombre << ", Peso: " << actual->peso << endl;
-         cout << "------------------------------------\n";
+        cout << "------------------------------------\n";
         actual = actual->anterior;
     }
 }
 
-//Funcion para encontrar el id
-Paquete* BuscarID(ListaDoble &lista, int id)
+// Funcion para encontrar el id
+Paquete *BuscarID(ListaDoble &lista, int id)
 {
     Paquete *actual = lista.cabeza;
     while (actual != nullptr)
     {
         if (actual->id == id)
-        return actual;
+            return actual;
         actual = actual->siguiente;
     }
     return nullptr;
-    
 }
 
+// Funcion para eliminar por ID
 void eliminarID(ListaDoble &lista, int id)
 {
     if (lista.cabeza == nullptr)
     {
-        cout << "La lista esta vacia, nada que eliminar"<< endl; 
-        return ;
+        cout << "La lista esta vacia, nada que eliminar" << endl;
+        return;
     }
 
     Paquete *actual = lista.cabeza;
 
-    //Buscar nodo con ID
-    while (actual != nullptr && actual-> id != id)
+    // Buscar nodo con ID
+    while (actual != nullptr && actual->id != id)
     {
         actual = actual->siguiente;
     }
-    
+
     if (actual == nullptr)
     {
         cout << "No se encontro un paquete con ID " << id << endl;
-        return ;
+        return;
     }
 
     if (lista.cabeza == lista.cola)
@@ -267,7 +299,7 @@ void eliminarID(ListaDoble &lista, int id)
     }
     else if (actual == lista.cabeza)
     {
-        lista.cabeza = actual-> siguiente;
+        lista.cabeza = actual->siguiente;
         lista.cabeza->anterior = nullptr;
         delete actual;
     }
@@ -286,4 +318,42 @@ void eliminarID(ListaDoble &lista, int id)
 
     lista.contador--;
     cout << "Paquete con ID " << id << " Eliminado correctamente" << endl;
+    cout << "------------------------------------\n";
+}
+
+// Funcion para editar por ID
+void editarID(ListaDoble &lista, int id, string nuevoNombre, float nuevoPeso)
+{
+    Paquete *actual = lista.cabeza;
+
+    while (actual != nullptr && actual->id != id)
+    {
+        actual = actual->siguiente;
+    }
+
+    if (actual == nullptr)
+    {
+        cout << "No se encontro un paquete con ID " << id << endl;
+        return;
+    }
+
+    actual->nombre = nuevoNombre;
+    actual->peso = nuevoPeso;
+
+    cout << "Paquete con ID " << id << " editado correctamente" << endl;
+}
+
+// Funcion para liberar memoria
+void LiberarMemoria(ListaDoble &lista)
+{
+    Paquete *actual = lista.cabeza;
+    while (actual != nullptr)
+    {
+        Paquete *temp = actual;
+        actual = actual->siguiente;
+        delete temp;
+    }
+    lista.cabeza = nullptr;
+    lista.cola = nullptr;
+    lista.contador = 0;
 }
