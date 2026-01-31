@@ -23,6 +23,7 @@ struct ListaDoble
 void InsertarInicio(ListaDoble &lista, int id, string nombre, float peso);
 void InsertarFinal(ListaDoble &lista, int id, string nombre, float peso);
 void MostrarAdelante(const ListaDoble &lista);
+void MostrarAtras(const ListaDoble &lista);
 
 int main()
 {
@@ -78,6 +79,7 @@ int main()
             MostrarAdelante(milista);
             break;
         case 4:
+             MostrarAtras(milista);
             break;
 
         case 5:
@@ -160,5 +162,25 @@ void MostrarAdelante(const ListaDoble &lista)
         cout << "ID: " << actual->id << ", Nombre: " << actual->nombre << ", Peso: " << actual->peso << endl;
          cout << "------------------------------------\n";
         actual = actual->siguiente;
+    }
+}
+
+
+// Funcion para mostrar los paquetes desde el final
+void MostrarAtras(const ListaDoble &lista)
+{
+    Paquete *actual = lista.cola;
+    if (actual == nullptr)
+    {
+        cout << "La lista esta vacia.\n";
+        return;
+    }
+     cout << "------------------------------------\n";
+    cout << "Paquetes en la lista (desde el final):\n";
+    while (actual != nullptr)
+    {
+        cout << "ID: " << actual->id << ", Nombre: " << actual->nombre << ", Peso: " << actual->peso << endl;
+         cout << "------------------------------------\n";
+        actual = actual->anterior;
     }
 }
