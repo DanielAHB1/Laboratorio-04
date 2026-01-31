@@ -22,6 +22,7 @@ struct ListaDoble
 // Prototipos de Funciones
 void InsertarInicio(ListaDoble &lista, int id, string nombre, float peso);
 void InsertarFinal(ListaDoble &lista, int id, string nombre, float peso);
+void MostrarAdelante(const ListaDoble &lista);
 
 int main()
 {
@@ -74,6 +75,7 @@ int main()
             cout << "------------------------------------\n";
             break;
         case 3:
+            MostrarAdelante(milista);
             break;
         case 4:
             break;
@@ -140,4 +142,23 @@ void InsertarFinal(ListaDoble &lista, int id, string nombre, float peso)
 
     lista.cola = nuevoPaquete;
     lista.contador++;
+}
+
+// Funcion para mostrar los paquetes desde el inicio
+void MostrarAdelante(const ListaDoble &lista)
+{
+    Paquete *actual = lista.cabeza;
+    if (actual == nullptr)
+    {
+        cout << "La lista esta vacia.\n";
+        return;
+    }
+     cout << "------------------------------------\n";
+    cout << "Paquetes en la lista (desde el inicio):\n";
+    while (actual != nullptr)
+    {
+        cout << "ID: " << actual->id << ", Nombre: " << actual->nombre << ", Peso: " << actual->peso << endl;
+         cout << "------------------------------------\n";
+        actual = actual->siguiente;
+    }
 }
