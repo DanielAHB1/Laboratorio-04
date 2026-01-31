@@ -45,7 +45,8 @@ int main()
         cout << "5. Buscar paquete por ID\n";
         cout << "6. Eliminar paquete por ID\n";
         cout << "7. Editar paquete por ID\n";
-        cout << "8. Salir\n";
+        cout << "8. Mostrar cantidad de paquetes\n";
+        cout << "9. Salir\n";
         cout << "Seleccione una opcion: ";
         cin >> opcion;
 
@@ -111,14 +112,28 @@ int main()
             cout << "------------------------------------\n";
             break;
         case 7:
+
             break;
         case 8:
+            cout << "------------------------------------\n";
+            cout << "CANTIDAD DE PAQUETES"<< endl;
+            if (milista.contador == 0)
+            {
+                cout << "La lista esta vacia"<< endl;
+            }
+            else {
+                cout << "Total de paquetes: " << milista.contador << endl;
+            }
+            cout << "------------------------------------\n";
+
+            break;
+        case 9:
             cout << "Saliendo del programa.\n";
             break;
         default:
             cout << "Opcion invalida. Intente de nuevo.\n";
         }
-    } while (opcion != 8);
+    } while (opcion != 9);
 
     return 0;
 }
