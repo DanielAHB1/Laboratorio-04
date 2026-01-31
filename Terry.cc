@@ -25,6 +25,7 @@ void InsertarFinal(ListaDoble &lista, int id, string nombre, float peso);
 void MostrarAdelante(const ListaDoble &lista);
 void MostrarAtras(const ListaDoble &lista);
 Paquete* BuscarID(ListaDoble &lista, int id);
+void eliminarID(ListaDoble &lista, int id);
 
 int main()
 {
@@ -102,6 +103,12 @@ int main()
             break;
 
         case 6:
+            cout << "------------------------------------\n";
+            cout << "ELIMINAR PAQUETE POR ID\n";
+            cout << "Ingrese ID a eliminar: ";
+            cin >> id;
+            eliminarID(milista, id);
+            cout << "------------------------------------\n";
             break;
         case 7:
             break;
@@ -213,4 +220,55 @@ Paquete* BuscarID(ListaDoble &lista, int id)
     }
     return nullptr;
     
+}
+
+void eliminarID(ListaDoble &lista, int id)
+{
+    if (lista.cabeza == nullptr)
+    {
+        cout << "La lista esta vacia, nada que eliminar"<< endl; 
+        return ;
+    }
+
+    Paquete *actual = lista.cabeza;
+
+    //Buscar nodo con ID
+    while (actual != nullptr && actual-> id != id)
+    {
+        actual = actual->siguiente;
+    }
+    
+    if (actual == nullptr)
+    {
+        cout << "No se encontro un paquete con ID " << id << endl;
+        return ;
+    }
+
+    if (lista.cabeza == lista.cola)
+    {
+        delete actual;
+        lista.cabeza = nullptr;
+        lista.cola = nullptr;
+    }
+    else if (actual == lista.cabeza)
+    {
+        lista.cabeza = actual-> siguiente;
+        lista.cabeza->anterior = nullptr;
+        delete actual;
+    }
+    else if (actual == lista.cola)
+    {
+        lista.cola = actual->anterior;
+        lista.cola->siguiente = nullptr;
+        delete actual;
+    }
+    else
+    {
+        actual->anterior->siguiente = actual->siguiente;
+        actual->siguiente->anterior = actual->anterior;
+        delete actual;
+    }
+
+    lista.contador--;
+    cout << "Paquete con ID " << id << " Eliminado correctamente" << endl;
 }
